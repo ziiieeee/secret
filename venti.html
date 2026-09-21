@@ -1,0 +1,993 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>A Little Birthday Surprise 🍃</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Georgia, "Times New Roman", serif;
+            background: linear-gradient(
+                135deg,
+                #d9fff4,
+                #b8eee1,
+                #e5fff9
+            );
+            color: #285f59;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* =========================
+           OPENING SCREEN
+        ========================= */
+
+        #opening {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(
+                135deg,
+                #163f3b,
+                #1f655d,
+                #318b7e
+            );
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            z-index: 9999;
+            transition: opacity 1.5s ease, visibility 1.5s ease;
+        }
+
+        #opening.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .opening-content {
+            color: white;
+            padding: 30px;
+            max-width: 650px;
+            animation: fadeIn 2s ease;
+        }
+
+        .opening-content .symbol {
+            font-size: 70px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .opening-content h1 {
+            font-size: 45px;
+            margin: 20px 0;
+            letter-spacing: 3px;
+        }
+
+        .opening-content p {
+            font-size: 18px;
+            line-height: 1.7;
+            margin-bottom: 30px;
+        }
+
+        .enter-btn {
+            padding: 15px 30px;
+            border: 2px solid white;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            font-size: 17px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .enter-btn:hover {
+            background: white;
+            color: #23665f;
+            transform: scale(1.08);
+        }
+
+        /* =========================
+           MAIN WEBSITE
+        ========================= */
+
+        main {
+            display: none;
+            animation: pageAppear 2s ease;
+        }
+
+        main.show {
+            display: block;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 850px;
+            margin: auto;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .hero {
+            animation: fadeIn 2s ease;
+        }
+
+        .anemo-symbol {
+            font-size: 85px;
+            margin-bottom: 20px;
+            animation: spin 10s linear infinite;
+        }
+
+        .hero h1 {
+            font-size: clamp(40px, 8vw, 75px);
+            color: #26766c;
+            margin-bottom: 15px;
+        }
+
+        .hero h2 {
+            font-size: 24px;
+            font-weight: normal;
+            color: #4d817b;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 17px;
+            line-height: 1.7;
+            max-width: 600px;
+            margin: auto;
+        }
+
+        .scroll {
+            margin-top: 60px;
+            font-size: 14px;
+            opacity: 0.7;
+            animation: bounce 2s infinite;
+        }
+
+        /* =========================
+           SECTIONS
+        ========================= */
+
+        section {
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 35px;
+            color: #26766c;
+            margin-bottom: 20px;
+        }
+
+        .section-text {
+            line-height: 1.8;
+            max-width: 650px;
+            margin: auto;
+        }
+
+        /* =========================
+           CAKE
+        ========================= */
+
+        .cake-container {
+            margin-top: 40px;
+        }
+
+        .cake {
+            position: relative;
+            width: 220px;
+            height: 130px;
+            margin: 50px auto;
+            cursor: pointer;
+        }
+
+        .cake-bottom {
+            position: absolute;
+            bottom: 0;
+            width: 220px;
+            height: 80px;
+            background: #f7d8b5;
+            border-radius: 10px 10px 25px 25px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+        }
+
+        .cake-top {
+            position: absolute;
+            bottom: 65px;
+            left: 10px;
+            width: 200px;
+            height: 45px;
+            background: #fff1dc;
+            border-radius: 50%;
+        }
+
+        .cream {
+            position: absolute;
+            bottom: 50px;
+            left: 25px;
+            width: 170px;
+            height: 30px;
+            background: #ffffff;
+            border-radius: 50%;
+        }
+
+        .candle {
+            position: absolute;
+            bottom: 90px;
+            left: 105px;
+            width: 12px;
+            height: 50px;
+            background: #73bfb2;
+            border-radius: 4px;
+        }
+
+        .flame {
+            position: absolute;
+            bottom: 138px;
+            left: 104px;
+            width: 16px;
+            height: 25px;
+            background: #ffd166;
+            border-radius: 50% 50% 50% 50%;
+            animation: flame 0.6s infinite alternate;
+        }
+
+        .cake-message {
+            margin-top: 10px;
+            font-size: 15px;
+            opacity: 0.8;
+        }
+
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        button {
+            font-family: inherit;
+        }
+
+        .magic-btn {
+            padding: 14px 25px;
+            margin: 10px;
+            border: none;
+            border-radius: 30px;
+            background: #4e9d91;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            transition: 0.3s;
+        }
+
+        .magic-btn:hover {
+            transform: translateY(-4px) scale(1.04);
+            background: #347d73;
+        }
+
+        /* =========================
+           LETTER
+        ========================= */
+
+        .letter {
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 40px;
+            background: rgba(255,255,255,0.75);
+            border: 2px solid rgba(78,157,145,0.3);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+
+            display: none;
+            text-align: left;
+            line-height: 1.8;
+
+            animation: letterOpen 1.5s ease;
+        }
+
+        .letter.show {
+            display: block;
+        }
+
+        .letter h2 {
+            text-align: center;
+            color: #26766c;
+            margin-bottom: 30px;
+        }
+
+        .letter p {
+            margin-bottom: 22px;
+        }
+
+        .wind-emojis {
+            text-align: center;
+            font-size: 28px;
+        }
+
+        .ending {
+            text-align: center;
+            font-weight: bold;
+            color: #26766c;
+            font-size: 18px;
+        }
+
+        /* =========================
+           WISH
+        ========================= */
+
+        #wish {
+            display: none;
+            margin-top: 25px;
+            font-size: 22px;
+            color: #26766c;
+            animation: fadeIn 2s ease;
+        }
+
+        #wish.show {
+            display: block;
+        }
+
+        /* =========================
+           FINAL SURPRISE
+        ========================= */
+
+        .final-surprise {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .final-box {
+            background: rgba(255,255,255,0.65);
+            padding: 50px 30px;
+            border-radius: 25px;
+            max-width: 700px;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.1);
+        }
+
+        .final-box h2 {
+            font-size: 40px;
+            color: #26766c;
+            margin-bottom: 20px;
+        }
+
+        .final-box p {
+            line-height: 1.8;
+            font-size: 18px;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            text-align: center;
+            padding: 50px 20px;
+            color: #477d77;
+        }
+
+        /* =========================
+           FLOATING WIND
+        ========================= */
+
+        .wind {
+            position: fixed;
+            pointer-events: none;
+            font-size: 22px;
+            animation: floatWind linear forwards;
+            z-index: 1;
+        }
+
+        /* =========================
+           ANIMATIONS
+        ========================= */
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pageAppear {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(10px);
+            }
+        }
+
+        @keyframes flame {
+            from {
+                transform: scale(1);
+            }
+
+            to {
+                transform: scale(1.15);
+            }
+        }
+
+        @keyframes letterOpen {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes floatWind {
+            from {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateY(-110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            .opening-content h1 {
+                font-size: 32px;
+            }
+
+            .opening-content p {
+                font-size: 15px;
+            }
+
+            .hero h2 {
+                font-size: 20px;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+
+            .letter {
+                padding: 25px;
+                font-size: 15px;
+            }
+
+            .final-box h2 {
+                font-size: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =====================================
+         OPENING SURPRISE SCREEN
+    ====================================== -->
+
+    <div id="opening">
+
+        <div class="opening-content">
+
+            <div class="symbol">🍃</div>
+
+            <h1>A MESSAGE FROM THE WIND</h1>
+
+            <p>
+                Someone left you a little surprise...
+                <br>
+                Follow the wind and see where it takes you. 🎵✨
+            </p>
+
+            <button class="enter-btn" onclick="enterWebsite()">
+                🍃 Enter Mondstadt 🍃
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================
+         MAIN WEBSITE
+    ====================================== -->
+
+    <main id="main">
+
+        <!-- HERO -->
+        <header>
+
+            <div class="hero">
+
+                <div class="anemo-symbol">
+                    🍃
+                </div>
+
+                <h1>Happy Birthday! 🎂</h1>
+
+                <h2>A Little Song Carried by the Wind 🎵</h2>
+
+                <p>
+                    The wind brought me here with a little message
+                    for someone very special. 💚
+                </p>
+
+                <div class="scroll">
+                    ↓ Scroll down ↓
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- INTRODUCTION -->
+
+        <section>
+
+            <div class="container">
+
+                <h2 class="section-title">
+                    🎵 A Song for Someone Special
+                </h2>
+
+                <p class="section-text">
+                    Every journey has its own melody, and every friendship
+                    has a story worth remembering.
+                    Today, the wind carries a little birthday song
+                    especially for you. 🍃
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- CAKE -->
+
+        <section>
+
+            <div class="container">
+
+                <h2 class="section-title">
+                    🎂 Make a Little Wish
+                </h2>
+
+                <p class="section-text">
+                    Before reading your letter, make a wish
+                    and blow out the candle. ✨
+                </p>
+
+
+                <div class="cake-container">
+
+                    <div class="cake" onclick="blowCandle()">
+
+                        <div class="flame" id="flame"></div>
+
+                        <div class="candle"></div>
+
+                        <div class="cream"></div>
+
+                        <div class="cake-top"></div>
+
+                        <div class="cake-bottom"></div>
+
+                    </div>
+
+                    <p class="cake-message">
+                        Click the cake to blow out the candle 🕯️
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- BUTTONS -->
+
+        <section>
+
+            <div class="container">
+
+                <h2 class="section-title">
+                    🍃 Something From Me
+                </h2>
+
+                <button
+                    class="magic-btn"
+                    onclick="openLetter()">
+                    💌 Open Your Letter
+                </button>
+
+                <button
+                    class="magic-btn"
+                    onclick="makeWish()">
+                    ✨ Make a Wish
+                </button>
+
+                <button
+                    class="magic-btn"
+                    onclick="releaseWind()">
+                    🍃 Release the Wind
+                </button>
+
+
+                <!-- LETTER -->
+
+                <div class="letter" id="letter">
+
+                    <h2>
+                        🍃 A Little Letter for You 🎵
+                    </h2>
+
+
+                    <p>
+                        I'm beyond thankful to have you in my life. 🤍
+                    </p>
+
+
+                    <p>
+                        It's been a while since I last saw you.
+                        <br>
+                        Makamingaw imong mga chika
+                        (no joke, like legit 😭).
+                        <br>
+                        Mangita na tag taga Malay balik, lol. 😂
+                    </p>
+
+
+                    <p>
+                        I'm so lucky to have a friend like you, honey.
+                        <br>
+                        Thank you for being the kind of friend I can
+                        always run to, someone I can talk to and share
+                        things with.
+                        I'm really grateful for your presence in my life.
+                    </p>
+
+
+                    <p>
+                        Just like the wind, may you always find a way
+                        forward—even when the road isn't clear. 🍃
+                    </p>
+
+
+                    <p>
+                        I hope you succeed in life, and that all your
+                        prayers, dreams, and wishes come true.
+                    </p>
+
+
+                    <p>
+                        You deserve all the good things coming your way.
+                        I'll always be rooting for you and wishing you
+                        nothing but happiness and success. 🤍
+                    </p>
+
+
+                    <p>
+                        May your days be filled with happiness, peace,
+                        love, and countless reasons to smile.
+                    </p>
+
+
+                    <p class="wind-emojis">
+                        🍃🎵✨
+                    </p>
+
+
+                    <p>
+                        Happy birthday once again! 🎂🎉
+                    </p>
+
+
+                    <p class="ending">
+                        May the wind bless your travels. 💚🍃
+                    </p>
+
+                </div>
+
+
+                <!-- WISH MESSAGE -->
+
+                <div id="wish">
+
+                    ✨ May all your wishes find their way to you.
+                    🍃
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- FINAL SURPRISE -->
+
+        <section class="final-surprise">
+
+            <div class="final-box">
+
+                <h2>
+                    🌿 One Last Thing...
+                </h2>
+
+                <p>
+                    No matter where life takes you, I hope you continue
+                    chasing the things that make you happy.
+                    <br><br>
+
+                    May you meet beautiful people,
+                    experience unforgettable moments,
+                    and discover new adventures along the way.
+                    <br><br>
+
+                    And whenever the road gets difficult,
+                    remember that the wind always finds a way forward.
+                    🍃
+                    <br><br>
+
+                    Happy birthday once again! 🎂💚
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- FOOTER -->
+
+        <footer>
+
+            <p>
+                Made with love, friendship, and a little bit of wind. 🍃🎵
+            </p>
+
+            <br>
+
+            <p>
+                May the wind always be at your back. 💚
+            </p>
+
+        </footer>
+
+    </main>
+
+
+    <!-- =====================================
+         JAVASCRIPT
+    ====================================== -->
+
+    <script>
+
+        /* =========================
+           ENTER WEBSITE
+        ========================= */
+
+        function enterWebsite() {
+
+            const opening = document.getElementById("opening");
+            const main = document.getElementById("main");
+
+            opening.classList.add("hidden");
+
+            setTimeout(() => {
+
+                main.classList.add("show");
+
+            }, 1000);
+        }
+
+
+        /* =========================
+           OPEN LETTER
+        ========================= */
+
+        function openLetter() {
+
+            const letter = document.getElementById("letter");
+
+            letter.classList.toggle("show");
+
+            if (letter.classList.contains("show")) {
+
+                setTimeout(() => {
+
+                    letter.scrollIntoView({
+                        behavior: "smooth",
+                        block: "center"
+                    });
+
+                }, 100);
+
+            }
+
+        }
+
+
+        /* =========================
+           BLOW CANDLE
+        ========================= */
+
+        function blowCandle() {
+
+            const flame = document.getElementById("flame");
+
+            flame.style.display = "none";
+
+            createWind();
+
+        }
+
+
+        /* =========================
+           MAKE A WISH
+        ========================= */
+
+        function makeWish() {
+
+            const wish = document.getElementById("wish");
+
+            wish.classList.add("show");
+
+            for (let i = 0; i < 15; i++) {
+
+                setTimeout(() => {
+
+                    createWind();
+
+                }, i * 100);
+
+            }
+
+        }
+
+
+        /* =========================
+           RELEASE WIND
+        ========================= */
+
+        function releaseWind() {
+
+            for (let i = 0; i < 30; i++) {
+
+                setTimeout(() => {
+
+                    createWind();
+
+                }, i * 80);
+
+            }
+
+        }
+
+
+        /* =========================
+           CREATE WIND PARTICLE
+        ========================= */
+
+        function createWind() {
+
+            const wind = document.createElement("div");
+
+            wind.classList.add("wind");
+
+            const symbols = [
+                "🍃",
+                "🌿",
+                "✦",
+                "✧",
+                "🪽",
+                "🍀"
+            ];
+
+            wind.innerHTML =
+                symbols[Math.floor(Math.random() * symbols.length)];
+
+            wind.style.left =
+                Math.random() * 100 + "vw";
+
+            wind.style.bottom = "-30px";
+
+            wind.style.fontSize =
+                (15 + Math.random() * 20) + "px";
+
+            wind.style.animationDuration =
+                (4 + Math.random() * 5) + "s";
+
+            document.body.appendChild(wind);
+
+
+            setTimeout(() => {
+
+                wind.remove();
+
+            }, 9000);
+
+        }
+
+
+        /* =========================
+           AUTOMATIC WIND
+        ========================= */
+
+        setInterval(() => {
+
+            if (document.getElementById("main").classList.contains("show")) {
+
+                createWind();
+
+            }
+
+        }, 2500);
+
+    </script>
+
+</body>
+</html>
+```
